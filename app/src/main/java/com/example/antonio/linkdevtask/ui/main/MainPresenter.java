@@ -39,6 +39,9 @@ class MainPresenter {
             @Override
             public void onResponse(@NonNull Call<NewsFeedResponse> call, @NonNull final Response<NewsFeedResponse> response) {
                 mainViewInterface.hideLoadingAnimation();
+                if(response.isSuccessful()){
+                    mainViewInterface.onNewsFeedLoaded(response.body());
+                }
 
             }
 

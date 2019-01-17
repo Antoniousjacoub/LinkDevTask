@@ -61,13 +61,18 @@ public class NetModule {
     OkHttpClient provideOkhttpClient(Cache cache) {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cache(cache);
         client.readTimeout(60, TimeUnit.SECONDS);
         client.writeTimeout(60, TimeUnit.SECONDS);
         client.connectTimeout(60, TimeUnit.SECONDS);
         client.addInterceptor(logging);
+        client.addInterceptor(chain -> {
+            Request.Builder request = chain.request().newBuilder();
+            request.addHeader("Token", "")
+            .addHeader("UserId", "");
+            return chain.proceed(request.build());
+        });
         return client.build();
     }
 

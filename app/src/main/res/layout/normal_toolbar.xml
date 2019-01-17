@@ -17,14 +17,14 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_open_drawer"
+            android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center|center_vertical"
             android:layout_marginLeft="10dp"
-            android:padding="10dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_drawer"
+            android:padding="10dp"
+            android:src="@drawable/ic_arrow_back"
             android:tint="@color/white" />
 
         <ImageView
@@ -32,7 +32,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
-
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center|center_vertical"
@@ -46,12 +45,12 @@
             android:id="@+id/tv_toolbar_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|start"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/img_open_drawer"
+            android:layout_toEndOf="@+id/img_back"
             android:layout_toLeftOf="@+id/img_search"
-            android:layout_toRightOf="@+id/img_open_drawer"
+            android:layout_toRightOf="@+id/img_back"
             android:layout_toStartOf="@+id/img_search"
+            android:gravity="center|start"
             android:text="@string/link_development"
             android:textColor="@color/white"
             android:textSize="16sp" />

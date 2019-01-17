@@ -25,14 +25,13 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
     private Context context;
     private List<DrawerItem> drawerItemList;
     private int layoutResID;
-    private int mSelectedItem;
 
-    public CustomDrawerAdapter(Context context, int layoutResourceID, List<DrawerItem> listItems, int mSelectedItem) {
+
+    public CustomDrawerAdapter(Context context, int layoutResourceID, List<DrawerItem> listItems) {
         super(context, layoutResourceID, listItems);
         this.context = context;
         this.drawerItemList = listItems;
         this.layoutResID = layoutResourceID;
-        this.mSelectedItem = mSelectedItem;
     }
 
     @NonNull
@@ -48,9 +47,9 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             drawerHolder = new DrawerItemHolder();
 
             view = inflater.inflate(layoutResID, parent, false);
-            drawerHolder.itemName =  view.findViewById(R.id.drawer_itemName);
-            drawerHolder.icon =  view.findViewById(R.id.drawer_icon);
-            drawerHolder.imageSelectedItem=view.findViewById(R.id.image_selected_item);
+            drawerHolder.itemName = view.findViewById(R.id.drawer_itemName);
+            drawerHolder.icon = view.findViewById(R.id.drawer_icon);
+            drawerHolder.imageSelectedItem = view.findViewById(R.id.image_selected_item);
             view.setTag(drawerHolder);
 
         } else {
@@ -62,8 +61,11 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
         drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
         drawerHolder.itemName.setText(dItem.getItemName());
 
-        if (position==mSelectedItem)
+        if (dItem.isSelected()) {
             drawerHolder.imageSelectedItem.setImageDrawable(view.getResources().getDrawable(R.drawable.selected));
+        } else {
+            drawerHolder.imageSelectedItem.setImageDrawable(null);
+        }
         return view;
     }
 
