@@ -1,6 +1,7 @@
 package com.example.antonio.linkdevtask.ui.main;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,7 +21,10 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
 
     @BindView(R.id.rv_news_feed)
     RecyclerView rvNewsFeed;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     private NewsFeedAdapter newsFeedAdapter;
+    private MainPresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,12 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
         ButterKnife.bind(this);
         setupDrawerContent();
         Retrofit retrofit = ((App) getApplication()).getNetComponent().getRetrofit();
-        MainPresenter mainPresenter = new MainPresenter(retrofit, this);
+        mainPresenter = new MainPresenter(retrofit, this);
         mainPresenter.getNewsFeed();
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+             mainPresenter = new MainPresenter(retrofit, this);
+             mainPresenter.getNewsFeed();
+        });
     }
 
     @Override
@@ -48,6 +56,7 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
     public void hideLoadingAnimation() {
         loadView.setVisibility(View.GONE);
         flContent.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -64,6 +73,8 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
 
     @Override
     public void onError(Throwable throwable) {
+        swipeRefreshLayout.setRefreshing(false);
 
     }
+
 }

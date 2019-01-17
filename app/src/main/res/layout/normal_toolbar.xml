@@ -51,9 +51,11 @@
             android:layout_toRightOf="@+id/img_back"
             android:layout_toStartOf="@+id/img_search"
             android:gravity="center|start"
+            android:layout_marginStart="10dp"
             android:text="@string/link_development"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp" />
     </RelativeLayout>
 
 

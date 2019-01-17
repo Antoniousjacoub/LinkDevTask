@@ -2,7 +2,6 @@ package com.example.antonio.linkdevtask;
 
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
 
 import com.example.antonio.linkdevtask.dagger.component.DaggerNetComponent;
 import com.example.antonio.linkdevtask.dagger.component.NetComponent;
@@ -32,6 +31,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         mNetComponent = DaggerNetComponent.builder()
                 .appModule(new AppModule(this))
                 .netModule(new NetModule(STATICS.BASE_URL, getApplicationContext()))

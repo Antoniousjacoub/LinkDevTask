@@ -48,13 +48,15 @@
             android:layout_height="match_parent"
             android:gravity="center|start"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/img_open_drawer"
             android:layout_toLeftOf="@+id/img_search"
             android:layout_toRightOf="@+id/img_open_drawer"
             android:layout_toStartOf="@+id/img_search"
             android:text="@string/link_development"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp" />
     </RelativeLayout>
 
 
