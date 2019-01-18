@@ -33,10 +33,10 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
         ButterKnife.bind(this);
         setupDrawerContent();
         Retrofit retrofit = ((App) getApplication()).getNetComponent().getRetrofit();
-        mainPresenter = new MainPresenter(retrofit, this);
+        mainPresenter = new MainPresenter(this,retrofit, this);
         mainPresenter.getNewsFeed();
         swipeRefreshLayout.setOnRefreshListener(() -> {
-             mainPresenter = new MainPresenter(retrofit, this);
+             mainPresenter = new MainPresenter(this,retrofit, this);
              mainPresenter.getNewsFeed();
         });
     }
@@ -73,7 +73,6 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
 
     @Override
     public void onError(Throwable throwable) {
-        swipeRefreshLayout.setRefreshing(false);
 
     }
 

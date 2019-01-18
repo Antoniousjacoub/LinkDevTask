@@ -9,4 +9,7 @@
     <string name="str_tony_roshdy">Tony Roshdy</string>
     <string name="link_development">LINK DEVELOPMENT</string>
     <string name="by">By</string>
+
+    <string name="error_communicating_with_server">Error in communicating with server</string>
+    <string name="error_network">Error in network</string>
 </resources>
