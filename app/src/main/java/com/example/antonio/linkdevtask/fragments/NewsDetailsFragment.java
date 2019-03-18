@@ -58,11 +58,6 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     private OnFragmentInteractionListener mListener;
     private NewsDetailsFragment fragment;
 
-    public NewsDetailsFragment() {
-
-    }
-
-
     public NewsDetailsFragment getInstance(Bundle bundle) {
         if (fragment == null) {
             fragment = new NewsDetailsFragment();

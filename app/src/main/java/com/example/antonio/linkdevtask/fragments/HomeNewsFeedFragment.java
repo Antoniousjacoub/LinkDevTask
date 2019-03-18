@@ -40,10 +40,6 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface 
     private OnFragmentInteractionListener mListener;
     private  HomeNewsFeedFragment fragment;
 
-    public HomeNewsFeedFragment() {
-        // Required empty public constructor
-    }
-
     public  HomeNewsFeedFragment getInstance() {
         if (fragment == null) {
             fragment = new HomeNewsFeedFragment();
