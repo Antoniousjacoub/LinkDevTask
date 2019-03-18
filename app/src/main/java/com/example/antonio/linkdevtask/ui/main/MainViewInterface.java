@@ -11,5 +11,4 @@ public interface MainViewInterface {
     void hideLoadingAnimation();
     void showErrorMessage(String message);
     void showLoadingAnimation();
-    void onError(Throwable throwable);
 }

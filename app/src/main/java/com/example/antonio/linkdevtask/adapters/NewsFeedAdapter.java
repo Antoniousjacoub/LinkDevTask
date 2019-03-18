@@ -3,25 +3,21 @@ package com.example.antonio.linkdevtask.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
-import com.example.antonio.linkdevtask.utils.Helpers;
-import com.example.antonio.linkdevtask.utils.Settings;
+import com.example.antonio.linkdevtask.utils.Utils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,13 +28,12 @@ import butterknife.ButterKnife;
 
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private NewsFeedResponse mData;
-    private LayoutInflater mInflater;
+    private List<Article>  mData;
     private Context context;
+    private Article article;
 
     // data is passed into the constructor
-    public NewsFeedAdapter(Context context, NewsFeedResponse data) {
-        this.mInflater = LayoutInflater.from(context);
+    public NewsFeedAdapter(Context context, List<Article> data) {
         this.mData = data;
         this.context = context;
     }
@@ -47,26 +42,30 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_news_feed, parent, false);
+        View view =  LayoutInflater.from(context).inflate(R.layout.item_news_feed, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Article article=mData.getArticles().get(position);
+        article = mData.get(position);
 
-        holder.tvAuthor.setText(Helpers.validString(article.getAuthor()));
-        holder.tvNewsFeedTitle.setText(Helpers.validString(article.getTitle()));
-        holder.tvPublishDate.setText(Helpers.parseDate(article.getPublishedAt()));
-        Settings.loadImageWithGlide(context,holder.imgNewsFeed,article.getUrlToImage());
-        holder.cardView.setOnClickListener(view -> {
-            Intent intent =new Intent(context, NewsFeedDetailsActivity.class);
-            intent.putExtra(NewsFeedDetailsActivity.ARTICLE_KEY,article);
-            context.startActivity(intent);
-        });
+        holder.tvAuthor.setText(Utils.validString(article.getAuthor()));
+        holder.tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
+        holder.tvPublishDate.setText(Utils.parseDate(article.getPublishedAt()));
+        Utils.loadImageWithGlide(context,holder.imgNewsFeed, article.getUrlToImage());
+        holder.cardView.setOnClickListener(onClickListener);
 
     }
+
+    private View.OnClickListener onClickListener=v -> {
+        if (article==null||context==null)
+            return;
+        Intent intent =new Intent(context, NewsFeedDetailsActivity.class);
+        intent.putExtra(NewsFeedDetailsActivity.ARTICLE_KEY,article);
+        context.startActivity(intent);
+    };
 
     @Override
     public long getItemId(int position) {
@@ -76,7 +75,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.getArticles().size();
+        return mData.size();
     }
 
 

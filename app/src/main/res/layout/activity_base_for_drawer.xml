@@ -2,9 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
-    android:background="@color/screen_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/screen_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,38 +17,38 @@
 
         <FrameLayout
             android:id="@+id/flContent"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 
-    <RelativeLayout
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nvView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:background="@color/white"
+        android:fitsSystemWindows="true"
+        android:paddingTop="@dimen/dp_16"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white">
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nvView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:fitsSystemWindows="true"
-            android:paddingTop="16dp"
+            android:layout_height="match_parent">
 
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white">
+            <include
+                android:id="@+id/navigation_drawer_header_include"
+                layout="@layout/nav_header" />
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/menuList"
                 android:layout_width="match_parent"
-
                 android:layout_height="match_parent"
-                android:divider="@android:color/transparent"
-                tools:listitem="@layout/drawer_list_item" />
+                android:layout_below="@id/navigation_drawer_header_include" />
 
-        </android.support.design.widget.NavigationView>
-    </RelativeLayout>
+        </RelativeLayout>
+    </android.support.design.widget.NavigationView>
 
 
 </android.support.v4.widget.DrawerLayout>

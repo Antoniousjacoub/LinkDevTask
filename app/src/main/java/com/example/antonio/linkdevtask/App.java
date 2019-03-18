@@ -3,40 +3,34 @@ package com.example.antonio.linkdevtask;
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
 
-import com.example.antonio.linkdevtask.dagger.component.DaggerNetComponent;
-import com.example.antonio.linkdevtask.dagger.component.NetComponent;
-import com.example.antonio.linkdevtask.dagger.module.AppModule;
-import com.example.antonio.linkdevtask.dagger.module.NetModule;
-import com.example.antonio.linkdevtask.utils.STATICS;
+import com.example.antonio.linkdevtask.dagger.component.DaggerNetworkingComponent;
+import com.example.antonio.linkdevtask.dagger.component.NetworkingComponent;
 
-import retrofit2.Retrofit;
+import com.example.antonio.linkdevtask.dagger.module.NetworkingModule;
+import com.example.antonio.linkdevtask.utils.Constants;
 
 /**
  * Created by antonio on 1/16/19.
  */
 
 public class App extends Application {
-    Retrofit retrofit;
-
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private NetComponent mNetComponent;
+    private NetworkingComponent mNetworkingComponent;
 
-    public NetComponent getNetComponent() {
-        return mNetComponent;
+    public NetworkingComponent getNetComponent() {
+        return mNetworkingComponent;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mNetComponent = DaggerNetComponent.builder()
-                .appModule(new AppModule(this))
-                .netModule(new NetModule(STATICS.BASE_URL, getApplicationContext()))
+        mNetworkingComponent = DaggerNetworkingComponent.builder()
+                .networkingModule(new NetworkingModule(this,Constants.BASE_URL))
                 .build();
-        retrofit = mNetComponent.getRetrofit();
+
     }
 
 

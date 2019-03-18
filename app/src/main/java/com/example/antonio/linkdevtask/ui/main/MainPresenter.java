@@ -1,13 +1,15 @@
 package com.example.antonio.linkdevtask.ui.main;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.antonio.linkdevtask.App;
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 import com.example.antonio.linkdevtask.service.ServicesInterface;
-import com.example.antonio.linkdevtask.utils.STATICS;
+import com.example.antonio.linkdevtask.utils.Constants;
 
 import java.io.IOException;
 
@@ -22,28 +24,31 @@ import retrofit2.Retrofit;
  */
 
 class MainPresenter {
-
-
     private Context context;
-    private Retrofit retrofit;
+    private ServicesInterface servicesInterface;
     private MainViewInterface mainViewInterface;
 
-    MainPresenter(Context context,Retrofit retrofit, MainViewInterface mainViewInterface) {
-        this.retrofit = retrofit;
-        this.context=context;
+    MainPresenter(Activity context, MainViewInterface mainViewInterface) {
+
+        this.servicesInterface = ((App) context.getApplication()).getNetComponent().getServicesInterface();
+        this.context = context;
         this.mainViewInterface = mainViewInterface;
     }
 
-    void getNewsFeed() {
-        if (retrofit == null || mainViewInterface == null)
+    void getNewsFeed(boolean isFromSwipeRefresh) {
+        if (servicesInterface == null || mainViewInterface == null)
             return;//early
-        mainViewInterface.showLoadingAnimation();
-        Call<NewsFeedResponse> homeData = retrofit.create(ServicesInterface.class).getNewsFeed(STATICS.SOURCE,
-                STATICS.API_KEY);
+        if (!isFromSwipeRefresh) {
+            mainViewInterface.showLoadingAnimation();
+        }
+        Call<NewsFeedResponse> homeData = servicesInterface.getNewsFeed(Constants.SOURCE,
+                Constants.API_KEY);
         homeData.enqueue(new Callback<NewsFeedResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsFeedResponse> call, @NonNull final Response<NewsFeedResponse> response) {
-                mainViewInterface.hideLoadingAnimation();
+                if (!isFromSwipeRefresh) {
+                    mainViewInterface.hideLoadingAnimation();
+                }
                 if (response.isSuccessful()) {
                     mainViewInterface.onNewsFeedLoaded(response.body());
                 }
@@ -52,7 +57,6 @@ class MainPresenter {
 
             @Override
             public void onFailure(@NonNull Call<NewsFeedResponse> call, @NonNull Throwable t) {
-                mainViewInterface.onError(t);
                 processError(t);
                 Log.e("onFailure", t.getMessage() + "");
                 Log.e("onFailure", t.getLocalizedMessage() + "");
@@ -62,7 +66,7 @@ class MainPresenter {
     }
 
     private void processError(Throwable throwable) {
-        if (mainViewInterface==null||throwable==null||context==null)
+        if (mainViewInterface == null || throwable == null || context == null)
             return;
         mainViewInterface.hideLoadingAnimation();
         if (throwable instanceof HttpException) {

@@ -6,16 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.example.antonio.linkdevtask.App;
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.NewsFeedAdapter;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 import com.example.antonio.linkdevtask.ui.base.BaseActivityForDrawer;
-import com.example.antonio.linkdevtask.utils.Helpers;
+import com.example.antonio.linkdevtask.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
 
 public class MainActivity extends BaseActivityForDrawer implements MainViewInterface {
 
@@ -23,7 +21,6 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
     RecyclerView rvNewsFeed;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    private NewsFeedAdapter newsFeedAdapter;
     private MainPresenter mainPresenter;
 
     @Override
@@ -32,22 +29,32 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setupDrawerContent();
-        Retrofit retrofit = ((App) getApplication()).getNetComponent().getRetrofit();
-        mainPresenter = new MainPresenter(this,retrofit, this);
-        mainPresenter.getNewsFeed();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-             mainPresenter = new MainPresenter(this,retrofit, this);
-             mainPresenter.getNewsFeed();
-        });
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        handleNewsRequest();
+
+
     }
+
+    private void handleNewsRequest() {
+        mainPresenter = new MainPresenter(this, this);
+        mainPresenter.getNewsFeed(false);
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
+        if (mainPresenter != null) {
+            mainPresenter.getNewsFeed(true);
+        }
+    };
 
     @Override
     public void onNewsFeedLoaded(NewsFeedResponse newsFeedResponse) {
-        if (newsFeedResponse == null)
+        if (newsFeedResponse == null) {
+            Utils.showMessage(this, getString(R.string.no_data_to_show));
             return;
+        }
 
         rvNewsFeed.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        newsFeedAdapter = new NewsFeedAdapter(MainActivity.this, newsFeedResponse);
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(MainActivity.this, newsFeedResponse.getArticles());
         rvNewsFeed.setAdapter(newsFeedAdapter);
 
     }
@@ -62,7 +69,7 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
 
     @Override
     public void showErrorMessage(String message) {
-        Helpers.showMessage(this, message);
+        Utils.showMessage(this, message);
     }
 
     @Override
@@ -71,9 +78,5 @@ public class MainActivity extends BaseActivityForDrawer implements MainViewInter
         flContent.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onError(Throwable throwable) {
-
-    }
 
 }

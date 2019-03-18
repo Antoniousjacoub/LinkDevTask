@@ -1,7 +1,5 @@
 package com.example.antonio.linkdevtask.ui.newsFeedDetails;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,14 +11,13 @@ import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
-import com.example.antonio.linkdevtask.utils.Helpers;
-import com.example.antonio.linkdevtask.utils.Settings;
+import com.example.antonio.linkdevtask.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NewsFeedDetailsActivity extends AppCompatActivity {
+public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsFeedDetailsView {
 
     public static String ARTICLE_KEY = "ARTICLE_KEY";
     @BindView(R.id.img_back)
@@ -43,20 +40,16 @@ public class NewsFeedDetailsActivity extends AppCompatActivity {
     TextView tvNewsDetailsDesc;
     @BindView(R.id.btn_open_website)
     Button btnOpenWebsite;
-    private Article articleModel;
+    private String urlArticle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_details);
         ButterKnife.bind(this);
-
-        if (getIntent() != null && getIntent().getExtras() != null) {
-            articleModel = getIntent().getExtras().getParcelable(ARTICLE_KEY);
-            onSetDataOnView(articleModel);
-        }
-
-
+        NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
+        newsFeedDetailsPresenter.handleNewsFeedDetailsData(getIntent().getExtras());
     }
 
 
@@ -64,11 +57,12 @@ public class NewsFeedDetailsActivity extends AppCompatActivity {
         if (article == null)
             return;
 
-        tvAuthor.setText(Helpers.validString(article.getAuthor()));
-        tvNewsFeedTitle.setText(Helpers.validString(article.getTitle()));
-        tvNewsDetailsDesc.setText(Helpers.validString(article.getDescription()));
-        tvDatePublished.setText(Helpers.parseDate(article.getPublishedAt()));
-        Settings.loadImageWithGlide(this, imgNewsFeedDetails, article.getUrlToImage());
+        urlArticle = article.getUrl();
+        tvAuthor.setText(Utils.validString(article.getAuthor()));
+        tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
+        tvNewsDetailsDesc.setText(Utils.validString(article.getDescription()));
+        tvDatePublished.setText(Utils.parseDate(article.getPublishedAt()));
+        Utils.loadImageWithGlide(this, imgNewsFeedDetails, article.getUrlToImage());
 
 
     }
@@ -82,25 +76,15 @@ public class NewsFeedDetailsActivity extends AppCompatActivity {
             case R.id.img_search:
                 break;
             case R.id.btn_open_website:
-                openWebsiteOnBrowser();
+                if (urlArticle != null)
+                    Utils.openWebsiteOnBrowser(this, urlArticle);
                 break;
         }
     }
 
-    private void openWebsiteOnBrowser() {
-        if (articleModel == null || articleModel.getUrl() == null || articleModel.getUrl().equals(""))
-            return;//we don't need to open website if this check is true
 
-        Uri webpage = Uri.parse(articleModel.getUrl());
-
-        if (!articleModel.getUrl().startsWith("http://") && !articleModel.getUrl().startsWith("https://")) {
-            webpage = Uri.parse("http://" + articleModel.getUrl());
-        }
-
-        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+    @Override
+    public void onNewsFeedDetailsData(Article article) {
+        onSetDataOnView(article);
     }
-
 }

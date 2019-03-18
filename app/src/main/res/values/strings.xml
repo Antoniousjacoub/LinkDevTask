@@ -12,4 +12,7 @@
 
     <string name="error_communicating_with_server">Error in communicating with server</string>
     <string name="error_network">Error in network</string>
+    <string name="search">Search</string>
+    <string name="no_data_to_show">No data to show</string>
+    <string name="no_apps_can_resolve_the_intent">Sorry,No apps can resolve the intent</string>
 </resources>

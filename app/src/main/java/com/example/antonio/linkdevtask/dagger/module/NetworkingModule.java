@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 
+import com.example.antonio.linkdevtask.service.ServicesInterface;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,35 +33,34 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 @Module
-public class NetModule {
-    String mBaseUrl;
-    private Context context;
+public class NetworkingModule {
+    private Application application;
+    private String mBaseUrl;
 
-    public NetModule(String mBaseUrl, Context context) {
+
+    public NetworkingModule(Application application,String mBaseUrl) {
+        this.application = application;
         this.mBaseUrl = mBaseUrl;
-        this.context = context;
     }
 
-
-    @Provides
-    @Singleton
-    Cache provideHttpCache(Application application) {
+   private Cache provideHttpCache() {
         int cacheSize = 10 * 1024 * 1024;
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
         return cache;
     }
 
-    @Provides
-    @Singleton
-    Gson provideGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        return gsonBuilder.create();
+
+  private Gson provideGson() {
+        return new GsonBuilder().create();
     }
 
     @Provides
     @Singleton
-    OkHttpClient provideOkhttpClient(Cache cache) {
+    ServicesInterface getServicesInterface(){
+        return provideRetrofit().create(ServicesInterface.class);
+    }
+
+  private   OkHttpClient provideOkhttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         try {
@@ -95,7 +95,7 @@ public class NetModule {
             OkHttpClient okHttpClient = new OkHttpClient();
             okHttpClient = okHttpClient.newBuilder()
                     .addInterceptor(logging)
-                    .cache(cache)
+                    .cache(provideHttpCache())
                     .sslSocketFactory(sslSocketFactory)
                     .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
 
@@ -106,14 +106,12 @@ public class NetModule {
 
     }
 
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+
+   private Retrofit provideRetrofit() {
         return new Retrofit.Builder()
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(provideGson()))
                 .baseUrl(mBaseUrl)
-                .client(okHttpClient)
+                .client(provideOkhttpClient())
                 .build();
     }
 }

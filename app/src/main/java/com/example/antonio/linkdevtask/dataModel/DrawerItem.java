@@ -7,7 +7,6 @@ package com.example.antonio.linkdevtask.dataModel;
 public class DrawerItem {
     private String ItemName;
     private int imgResID;
-    private boolean selected;
 
     public String getItemName() {
         return ItemName;
@@ -25,11 +24,4 @@ public class DrawerItem {
         this.imgResID = imgResID;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
 }

@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivityForDrawer" />
-        <activity android:name=".ui.newsFeedDetails.NewsFeedDetailsActivity"></activity>
+        <activity android:name=".ui.newsFeedDetails.NewsFeedDetailsActivity" />
     </application>
 
 </manifest>

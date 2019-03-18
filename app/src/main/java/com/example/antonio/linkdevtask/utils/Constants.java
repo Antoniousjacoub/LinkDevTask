@@ -4,7 +4,7 @@ package com.example.antonio.linkdevtask.utils;
  * Created by antonio on 1/16/19.
  */
 
-public class STATICS {
+public class Constants {
 
     public final static String BASE_URL = "https://newsapi.org/v1/" ;
     public final static String SOURCE = "the-next-web" ;
