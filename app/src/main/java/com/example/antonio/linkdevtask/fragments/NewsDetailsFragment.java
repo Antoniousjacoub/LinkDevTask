@@ -59,7 +59,7 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     private NewsDetailsFragment fragment;
 
     public NewsDetailsFragment() {
-        // Required empty public constructor
+
     }
 
 
