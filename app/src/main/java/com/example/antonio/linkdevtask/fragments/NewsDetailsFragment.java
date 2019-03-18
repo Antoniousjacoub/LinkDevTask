@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,6 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
 
     public static final String TAG = "NewsDetailsFragmentTag";
     public static String ARTICLE_KEY = "ARTICLE_KEY";
-    @BindView(R.id.img_back)
-    ImageView imgBack;
     @BindView(R.id.img_search)
     ImageView imgSearch;
     @BindView(R.id.img_news_feed_details)
@@ -57,14 +56,14 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
 
 
     private OnFragmentInteractionListener mListener;
-    private  NewsDetailsFragment fragment;
+    private NewsDetailsFragment fragment;
 
     public NewsDetailsFragment() {
         // Required empty public constructor
     }
 
 
-    public  NewsDetailsFragment getInstance(Bundle bundle) {
+    public NewsDetailsFragment getInstance(Bundle bundle) {
         if (fragment == null) {
             fragment = new NewsDetailsFragment();
             fragment.setArguments(bundle);
@@ -152,7 +151,7 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (unbinder!=null) {
+        if (unbinder != null) {
             unbinder.unbind();
         }
     }
