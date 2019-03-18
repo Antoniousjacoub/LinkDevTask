@@ -1,6 +1,4 @@
 package com.example.antonio.linkdevtask.adapters;
-
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.DrawerItem;
 import com.example.antonio.linkdevtask.ui.base.BaseActivityForDrawer;
+import com.example.antonio.linkdevtask.ui.base.OnItemSideMenuClicked;
 
 import java.util.List;
 
@@ -29,48 +27,14 @@ public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapte
 
     private Context context;
     private List<DrawerItem> drawerItemList;
+    private OnItemSideMenuClicked onItemSideMenuClicked;
 
 
-    public CustomDrawerAdapter(Context context, List<DrawerItem> listItems) {
+    public CustomDrawerAdapter(Context context, List<DrawerItem> listItems, OnItemSideMenuClicked onItemSideMenuClicked) {
         this.context = context;
         this.drawerItemList = listItems;
-
+        this.onItemSideMenuClicked = onItemSideMenuClicked;
     }
-// TODO: 3/18/2019 remove comment
-//    @NonNull
-//    @Override
-//    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-//
-//
-//        DrawerItemHolder drawerHolder;
-//        View view = convertView;
-//
-//        if (view == null) {
-//            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-//            drawerHolder = new DrawerItemHolder();
-//
-//            view = inflater.inflate(layoutResID, parent, false);
-//            drawerHolder.itemName = view.findViewById(R.id.drawer_itemName);
-//            drawerHolder.icon = view.findViewById(R.id.drawer_icon);
-//            drawerHolder.imageSelectedItem = view.findViewById(R.id.image_selected_item);
-//            view.setTag(drawerHolder);
-//
-//        } else {
-//            drawerHolder = (DrawerItemHolder) view.getTag();
-//        }
-//
-//        DrawerItem dItem = drawerItemList.get(position);
-//
-//        drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(dItem.getImgResID()));
-//        drawerHolder.itemName.setText(dItem.getItemName());
-//
-//        if (position == BaseActivityForDrawer.positionSelectedSideMenu) {
-//            drawerHolder.imageSelectedItem.setImageDrawable(view.getResources().getDrawable(R.drawable.selected));
-//        } else {
-//            drawerHolder.imageSelectedItem.setImageDrawable(null);
-//        }
-//        return view;
-//    }
 
     @NonNull
     @Override
@@ -85,6 +49,7 @@ public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapte
 
         holder.drawerIcon.setImageDrawable(context.getResources().getDrawable(dItem.getImgResID()));
         holder.drawerItemName.setText(dItem.getItemName());
+        holder.itemLayout.setOnClickListener(view -> onItemSideMenuClicked.onItemSideMenuClicked(position));
 
         if (position == BaseActivityForDrawer.positionSelectedSideMenu) {
             holder.imageSelectedItem.setImageDrawable(context.getResources().getDrawable(R.drawable.selected));

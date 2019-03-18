@@ -7,8 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.fragments.NewsDetailsFragment;
@@ -21,9 +22,7 @@ public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsDe
 
     @BindView(R.id.container_home)
     FrameLayout containerHome;
-    @BindView(R.id.tv_toolbar_title)
-    TextView tvToolbarTitle;
-    @BindView(R.id.normal_toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @Override
@@ -31,17 +30,32 @@ public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsDe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_details);
         ButterKnife.bind(this);
-        addFragment(R.id.container_home, new NewsDetailsFragment().getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
         handleToolbar();
+        addFragment(R.id.container_home, new NewsDetailsFragment().getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
     }
 
     private void handleToolbar() {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.link_development));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         }
+        toolbar.inflateMenu(R.menu.main_menu);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     protected void addFragment(@IdRes int containerViewId,
                                @NonNull Fragment fragment,
@@ -52,7 +66,11 @@ public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsDe
                 .disallowAddToBackStack()
                 .commit();
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
 

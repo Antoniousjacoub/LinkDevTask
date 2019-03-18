@@ -14,6 +14,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="8dp"
         app:cardCornerRadius="@dimen/dp_3"
         app:cardElevation="@dimen/dp_2"
         app:layout_constraintBottom_toTopOf="@+id/btn_open_website"

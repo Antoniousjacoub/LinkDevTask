@@ -1,6 +1,7 @@
 package com.example.antonio.linkdevtask.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,9 +16,12 @@ import android.widget.FrameLayout;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.NewsFeedAdapter;
+import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 import com.example.antonio.linkdevtask.ui.main.MainPresenter;
 import com.example.antonio.linkdevtask.ui.main.MainViewInterface;
+import com.example.antonio.linkdevtask.ui.main.OnItemNewsClicked;
+import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
 
 import butterknife.BindView;
@@ -25,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class HomeNewsFeedFragment extends Fragment implements MainViewInterface {
+public class HomeNewsFeedFragment extends Fragment implements MainViewInterface, OnItemNewsClicked {
 
     public static final String TAG = "HomeFragment";
     @BindView(R.id.rv_news_feed)
@@ -69,13 +73,14 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface 
 
     @Override
     public void onNewsFeedLoaded(NewsFeedResponse newsFeedResponse) {
+        swipeRefreshLayout.setRefreshing(false);
         if (newsFeedResponse == null || getContext() == null) {
             Utils.showMessage(getContext(), getString(R.string.no_data_to_show));
             return;
         }
 
         rvNewsFeed.setLayoutManager(new LinearLayoutManager(getContext()));
-        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(getContext(), newsFeedResponse.getArticles());
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(getContext(), newsFeedResponse.getArticles(),this);
         rvNewsFeed.setAdapter(newsFeedAdapter);
 
     }
@@ -83,8 +88,7 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface 
     @Override
     public void hideLoadingAnimation() {
         loadView.setVisibility(View.GONE);
-        rvNewsFeed
-                .setVisibility(View.VISIBLE);
+        rvNewsFeed.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setRefreshing(false);
 
     }
@@ -103,7 +107,6 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home_news_feed, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
@@ -141,6 +144,13 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface 
         if (unbinder!=null) {
             unbinder.unbind();
         }
+    }
+
+    @Override
+    public void onItemNewsClicked(Article article, int position) {
+        Intent intent =new Intent(getContext(), NewsFeedDetailsActivity.class);
+        intent.putExtra(NewsDetailsFragment.ARTICLE_KEY,article);
+        startActivity(intent);
     }
 
     public interface OnFragmentInteractionListener {

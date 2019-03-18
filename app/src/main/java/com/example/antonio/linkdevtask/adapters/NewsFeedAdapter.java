@@ -15,6 +15,7 @@ import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 import com.example.antonio.linkdevtask.fragments.NewsDetailsFragment;
+import com.example.antonio.linkdevtask.ui.main.OnItemNewsClicked;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
 
@@ -31,12 +32,14 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
 
     private List<Article>  mData;
     private Context context;
+    private OnItemNewsClicked onItemNewsClicked;
     private Article article;
 
     // data is passed into the constructor
-    public NewsFeedAdapter(Context context, List<Article> data) {
+    public NewsFeedAdapter(Context context, List<Article> data, OnItemNewsClicked onItemNewsClicked) {
         this.mData = data;
         this.context = context;
+        this.onItemNewsClicked = onItemNewsClicked;
     }
 
     // inflates the row layout from xml when needed
@@ -56,17 +59,11 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         holder.tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
         holder.tvPublishDate.setText(Utils.parseDate(article.getPublishedAt()));
         Utils.loadImageWithGlide(context,holder.imgNewsFeed, article.getUrlToImage());
-        holder.cardView.setOnClickListener(onClickListener);
+        holder.cardView.setOnClickListener(view -> onItemNewsClicked.onItemNewsClicked(mData.get(position),position));
 
     }
 
-    private View.OnClickListener onClickListener=v -> {
-        if (article==null||context==null)
-            return;
-        Intent intent =new Intent(context, NewsFeedDetailsActivity.class);
-        intent.putExtra(NewsDetailsFragment.ARTICLE_KEY,article);
-        context.startActivity(intent);
-    };
+
 
     @Override
     public long getItemId(int position) {
