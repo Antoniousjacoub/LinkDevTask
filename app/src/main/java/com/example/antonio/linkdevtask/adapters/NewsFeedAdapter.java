@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
+import com.example.antonio.linkdevtask.fragments.NewsDetailsFragment;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
 
@@ -63,7 +64,7 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         if (article==null||context==null)
             return;
         Intent intent =new Intent(context, NewsFeedDetailsActivity.class);
-        intent.putExtra(NewsFeedDetailsActivity.ARTICLE_KEY,article);
+        intent.putExtra(NewsDetailsFragment.ARTICLE_KEY,article);
         context.startActivity(intent);
     };
 

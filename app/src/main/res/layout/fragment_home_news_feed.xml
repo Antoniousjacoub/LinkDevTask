@@ -6,12 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.example.antonio.linkdevtask.ui.main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/container_home"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_news_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <include
+        android:id="@+id/load_view"
+        layout="@layout/base_loading"/>
 </android.support.constraint.ConstraintLayout>

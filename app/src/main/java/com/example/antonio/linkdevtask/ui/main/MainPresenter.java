@@ -23,19 +23,19 @@ import retrofit2.Retrofit;
  * Created by antonio on 1/16/19.
  */
 
-class MainPresenter {
+public class MainPresenter {
     private Context context;
     private ServicesInterface servicesInterface;
     private MainViewInterface mainViewInterface;
 
-    MainPresenter(Activity context, MainViewInterface mainViewInterface) {
+    public MainPresenter(Activity context, MainViewInterface mainViewInterface) {
 
         this.servicesInterface = ((App) context.getApplication()).getNetComponent().getServicesInterface();
         this.context = context;
         this.mainViewInterface = mainViewInterface;
     }
 
-    void getNewsFeed(boolean isFromSwipeRefresh) {
+   public void getNewsFeed(boolean isFromSwipeRefresh) {
         if (servicesInterface == null || mainViewInterface == null)
             return;//early
         if (!isFromSwipeRefresh) {

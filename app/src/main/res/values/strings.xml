@@ -15,4 +15,7 @@
     <string name="search">Search</string>
     <string name="no_data_to_show">No data to show</string>
     <string name="no_apps_can_resolve_the_intent">Sorry,No apps can resolve the intent</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
