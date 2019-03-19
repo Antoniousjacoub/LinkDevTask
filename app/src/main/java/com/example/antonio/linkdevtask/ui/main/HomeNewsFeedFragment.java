@@ -56,6 +56,16 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface,
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_home_news_feed, container, false);
+        unbinder = ButterKnife.bind(this, rootView);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        handleNewsRequest();
+        return rootView;
+    }
+
     private void handleNewsRequest() {
         if (getActivity() == null)
             return;
@@ -100,23 +110,6 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface,
     public void showLoadingAnimation() {
         loadView.setVisibility(View.VISIBLE);
         rvNewsFeed.setVisibility(View.GONE);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home_news_feed, container, false);
-        unbinder = ButterKnife.bind(this, rootView);
-        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
-        handleNewsRequest();
-        return rootView;
-    }
-
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
