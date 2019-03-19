@@ -1,4 +1,4 @@
-package com.example.antonio.linkdevtask.fragments;
+package com.example.antonio.linkdevtask.ui.newsFeedDetails;
 
 import android.content.Context;
 import android.net.Uri;
@@ -17,8 +17,6 @@ import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
-import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsPresenter;
-import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsView;
 import com.example.antonio.linkdevtask.utils.Utils;
 
 import butterknife.BindView;

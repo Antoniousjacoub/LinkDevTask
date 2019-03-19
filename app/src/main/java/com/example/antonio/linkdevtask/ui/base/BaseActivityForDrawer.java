@@ -11,10 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.CustomDrawerAdapter;
@@ -25,7 +22,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSideMenuClicked {
 
@@ -41,7 +37,6 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
     DrawerLayout drawerLayout;
     @BindView(R.id.load_view)
     public FrameLayout loadView;
-    private ArrayList<DrawerItem> dataListOFMenuItems;
     private CustomDrawerAdapter customDrawerAdapter;
 
     public static int positionSelectedSideMenu;//make the 0 position the default selected
@@ -69,7 +64,7 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
             getSupportActionBar().setTitle(title);
         }
         toolbar.inflateMenu(R.menu.main_menu);
-        setupDrawerContent();
+        setupDrawer();
     }
 
     protected void addFragment(@IdRes int containerViewId,
@@ -82,7 +77,7 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
                 .commit();
     }
 
-    public void setupDrawerContent() {
+    public void setupDrawer() {
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerToggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
@@ -90,7 +85,7 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
         drawerToggle.syncState();
 
 
-        dataListOFMenuItems = new ArrayList<DrawerItem>();
+        ArrayList<DrawerItem>  dataListOFMenuItems = new ArrayList<>();
         DrawerItem item_1 = new DrawerItem();
         item_1.setItemName(getString(R.string.str_menu_explore));
         item_1.setImgResID(R.drawable.ic_explore);

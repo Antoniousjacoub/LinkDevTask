@@ -1,7 +1,6 @@
 package com.example.antonio.linkdevtask.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +12,7 @@ import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
-import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
-import com.example.antonio.linkdevtask.fragments.NewsDetailsFragment;
 import com.example.antonio.linkdevtask.ui.main.OnItemNewsClicked;
-import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
 
 import java.util.List;

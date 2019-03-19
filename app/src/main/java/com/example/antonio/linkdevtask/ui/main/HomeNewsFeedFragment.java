@@ -1,4 +1,4 @@
-package com.example.antonio.linkdevtask.fragments;
+package com.example.antonio.linkdevtask.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,9 +18,7 @@ import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.NewsFeedAdapter;
 import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
-import com.example.antonio.linkdevtask.ui.main.MainPresenter;
-import com.example.antonio.linkdevtask.ui.main.MainViewInterface;
-import com.example.antonio.linkdevtask.ui.main.OnItemNewsClicked;
+import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsDetailsFragment;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
 

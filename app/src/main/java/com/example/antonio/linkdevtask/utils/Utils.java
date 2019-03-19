@@ -22,22 +22,14 @@ import java.util.Date;
 
 public class Utils {
 
-    private static RequestOptions requestOptions;
-
     public static void loadImageWithGlide(final Context context, final ImageView imageView, final String URL) {
 
         if (context == null || imageView == null || URL == null)
             return;//early if found one of them with null value
 
-        if (requestOptions == null)
-            requestOptions = new RequestOptions();
-
-        requestOptions.error(R.drawable.placeholder);
-        requestOptions.placeholder(R.drawable.placeholder);
-
         Glide.with(context)
                 .load(URL)
-                .apply(requestOptions)
+                .apply(new RequestOptions().error(R.drawable.placeholder).placeholder(R.drawable.placeholder))
                 .into(imageView);
 
 

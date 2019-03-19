@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import com.example.antonio.linkdevtask.R;
-import com.example.antonio.linkdevtask.fragments.NewsDetailsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.example.antonio.linkdevtask.dataModel.Article;
 
-import static com.example.antonio.linkdevtask.fragments.NewsDetailsFragment.ARTICLE_KEY;
+import static com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsDetailsFragment.ARTICLE_KEY;
 
 
 public class NewsFeedDetailsPresenter {
