@@ -2,7 +2,6 @@ package com.example.antonio.linkdevtask.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.NewsFeedAdapter;
@@ -55,6 +53,8 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        context = getActivity();
+        handleNewsRequest();
 
     }
 
@@ -62,10 +62,8 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home_news_feed, container, false);
-        context = getActivity();
         unbinder = ButterKnife.bind(this, rootView);
         setListeners();
-        handleNewsRequest();
         return rootView;
     }
 
@@ -97,22 +95,19 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
     }
 
     @Override
-    public void hideLoadingAnimation() {
-        loadView.setVisibility(View.GONE);
-        rvNewsFeed.setVisibility(View.VISIBLE);
-
-
-    }
-
-    @Override
     public void showErrorMessage(String message) {
         Utils.showMessage(context, message);
     }
 
     @Override
-    public void showLoadingAnimation() {
-        loadView.setVisibility(View.VISIBLE);
-        rvNewsFeed.setVisibility(View.GONE);
+    public void showOrHideLoadingAnimation(boolean showLoading) {
+        if (showLoading) {
+            loadView.setVisibility(View.VISIBLE);
+            rvNewsFeed.setVisibility(View.GONE);
+        } else {
+            loadView.setVisibility(View.GONE);
+            rvNewsFeed.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -137,7 +132,7 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
 
     @Override
     public void onItemNewsClicked(Article article, int position) {
-        Intent intent = new Intent(getContext(), NewsFeedDetailsActivity.class);
+        Intent intent = new Intent(context, NewsFeedDetailsActivity.class);
         intent.putExtra(NewsDetailsFragment.ARTICLE_KEY, article);
         startActivity(intent);
     }
@@ -152,7 +147,5 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
         swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
+
 }

@@ -9,6 +9,7 @@ import com.example.antonio.linkdevtask.ui.base.BaseViewInterface;
 
 public interface HomeNewsViewInterface extends BaseViewInterface {
     void onNewsFeedLoaded(NewsFeedResponse newsFeedResponse);
+
     void onHideRefresh();
 
 }

@@ -1,18 +1,13 @@
 package com.example.antonio.linkdevtask.ui.base;
 
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.CustomDrawerAdapter;
@@ -24,7 +19,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseActivityForDrawer extends AppCompatActivity implements CustomDrawerAdapter.OnItemSideMenuClicked {
+public class BaseActivityForDrawer extends BaseActivity implements CustomDrawerAdapter.OnItemSideMenuClicked {
 
     @BindView(R.id.flContent)
     public FrameLayout flContent;
@@ -66,16 +61,6 @@ public class BaseActivityForDrawer extends AppCompatActivity implements CustomDr
         }
         toolbar.inflateMenu(R.menu.main_menu);
         setupDrawer();
-    }
-
-    protected void addFragment(@IdRes int containerViewId,
-                               @NonNull Fragment fragment,
-                               @NonNull String fragmentTag) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(containerViewId, fragment, fragmentTag)
-                .disallowAddToBackStack()
-                .commit();
     }
 
     public void setupDrawer() {
@@ -151,10 +136,10 @@ public class BaseActivityForDrawer extends AppCompatActivity implements CustomDr
     }
 
     private static class SideMenuItems {
-        private final static int EXPLORE=0;
-        private final static int LIVE_CHAT=1;
-        private final static int GALLERY=2;
-        private final static int WISH_LIST=3;
-        private final static int E_MAGAZINE=4;
+        private final static int EXPLORE = 0;
+        private final static int LIVE_CHAT = 1;
+        private final static int GALLERY = 2;
+        private final static int WISH_LIST = 3;
+        private final static int E_MAGAZINE = 4;
     }
 }

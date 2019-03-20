@@ -34,16 +34,16 @@ class HomeNewsFeedPresenter {
     void getNewsFeed(boolean isFromSwipeRefresh) {
         if (servicesInterface == null || homeNewsViewInterface == null)
             return;//early
-        if (!isFromSwipeRefresh) {
-            homeNewsViewInterface.showLoadingAnimation();
-        }
+
+        homeNewsViewInterface.showOrHideLoadingAnimation(!isFromSwipeRefresh);
+
         Call<NewsFeedResponse> homeData = servicesInterface.getNewsFeed(Constants.SOURCE, Constants.API_KEY);
         homeData.enqueue(new Callback<NewsFeedResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsFeedResponse> call, @NonNull final Response<NewsFeedResponse> response) {
                 if (!isFromSwipeRefresh) {
-                    homeNewsViewInterface.hideLoadingAnimation();
-                }else
+                    homeNewsViewInterface.showOrHideLoadingAnimation(false);
+                } else
                     homeNewsViewInterface.onHideRefresh();
 
                 if (response.isSuccessful()) {
@@ -65,7 +65,7 @@ class HomeNewsFeedPresenter {
     private void processError(Throwable throwable) {
         if (homeNewsViewInterface == null || throwable == null || context == null)
             return;
-        homeNewsViewInterface.hideLoadingAnimation();
+        homeNewsViewInterface.showOrHideLoadingAnimation(false);
         homeNewsViewInterface.onHideRefresh();
         if (throwable instanceof HttpException) {
             homeNewsViewInterface.showErrorMessage(((HttpException) throwable).message());

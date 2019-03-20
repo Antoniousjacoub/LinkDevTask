@@ -1,7 +1,6 @@
 package com.example.antonio.linkdevtask.ui.newsFeedDetails;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,6 +48,7 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
     CardView cardView;
     Unbinder unbinder;
     private String urlArticle;
+    private Context context;
 
     public static NewsDetailsFragment getInstance(Bundle bundle) {
         NewsDetailsFragment fragment = new NewsDetailsFragment();
@@ -66,6 +66,9 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        context = getActivity();
+        NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
+        newsFeedDetailsPresenter.handleNewsFeedDetailsData(getArguments());
     }
 
     @Override
@@ -73,8 +76,6 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news_details, container, false);
         unbinder = ButterKnife.bind(this, rootView);
-        NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
-        newsFeedDetailsPresenter.handleNewsFeedDetailsData(getArguments());
         return rootView;
     }
 
@@ -129,13 +130,10 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
         tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
         tvNewsDetailsDesc.setText(Utils.validString(article.getDescription()));
         tvDatePublished.setText(Utils.parseDate(article.getPublishedAt()));
-        Utils.loadImageWithGlide(getContext(), imgNewsFeedDetails, article.getUrlToImage());
+        Utils.loadImageWithGlide(context, imgNewsFeedDetails, article.getUrlToImage());
 
 
     }
 
-    public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Uri uri);
-    }
 }

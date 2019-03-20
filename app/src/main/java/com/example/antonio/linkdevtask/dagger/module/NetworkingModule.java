@@ -33,8 +33,7 @@ public class NetworkingModule {
 
     private Cache provideHttpCache() {
         int cacheSize = 10 * 1024 * 1024;
-        Cache cache = new Cache(application.getCacheDir(), cacheSize);
-        return cache;
+       return   new Cache(application.getCacheDir(), cacheSize);
     }
 
 
