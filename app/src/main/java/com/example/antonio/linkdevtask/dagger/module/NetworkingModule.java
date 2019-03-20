@@ -1,32 +1,20 @@
 package com.example.antonio.linkdevtask.dagger.module;
 
 import android.app.Application;
-import android.content.Context;
-import android.os.Build;
 
 import com.example.antonio.linkdevtask.service.ServicesInterface;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.security.cert.CertificateException;
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * Created by antonio on 1/16/19.
@@ -38,29 +26,29 @@ public class NetworkingModule {
     private String mBaseUrl;
 
 
-    public NetworkingModule(Application application,String mBaseUrl) {
+    public NetworkingModule(Application application, String mBaseUrl) {
         this.application = application;
         this.mBaseUrl = mBaseUrl;
     }
 
-   private Cache provideHttpCache() {
+    private Cache provideHttpCache() {
         int cacheSize = 10 * 1024 * 1024;
         Cache cache = new Cache(application.getCacheDir(), cacheSize);
         return cache;
     }
 
 
-  private Gson provideGson() {
+    private Gson provideGson() {
         return new GsonBuilder().create();
     }
 
     @Provides
     @Singleton
-    ServicesInterface getServicesInterface(){
+    ServicesInterface getServicesInterface() {
         return provideRetrofit().create(ServicesInterface.class);
     }
 
-  private   OkHttpClient provideOkhttpClient() {
+    private OkHttpClient provideOkhttpClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 //        try {
@@ -92,14 +80,14 @@ public class NetworkingModule {
 //            final SSLSocketFactory sslSocketFactory = sslContext
 //                    .getSocketFactory();
 
-            OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient = okHttpClient.newBuilder()
-                    .addInterceptor(logging)
-                    .cache(provideHttpCache())
+        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClient = okHttpClient.newBuilder()
+                .addInterceptor(logging)
+                .cache(provideHttpCache())
 //                    .sslSocketFactory(sslSocketFactory)
-                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
+                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
 
-            return okHttpClient;
+        return okHttpClient;
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
@@ -107,7 +95,7 @@ public class NetworkingModule {
     }
 
 
-   private Retrofit provideRetrofit() {
+    private Retrofit provideRetrofit() {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(provideGson()))
                 .baseUrl(mBaseUrl)

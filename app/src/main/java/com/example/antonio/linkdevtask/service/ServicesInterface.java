@@ -4,7 +4,6 @@ import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Query;
 
 /**
@@ -14,6 +13,6 @@ import retrofit2.http.Query;
 public interface ServicesInterface {
 
     @GET("articles")
-    Call<NewsFeedResponse> getNewsFeed(@Query("source") String source,@Query("apiKey")String apiKey);
+    Call<NewsFeedResponse> getNewsFeed(@Query("source") String source, @Query("apiKey") String apiKey);
 
 }

@@ -1,14 +1,14 @@
 package com.example.antonio.linkdevtask.ui.main;
 
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
+import com.example.antonio.linkdevtask.ui.base.BaseViewInterface;
 
 /**
  * Created by antonio on 1/16/19.
  */
 
-public interface MainViewInterface {
+public interface HomeNewsViewInterface extends BaseViewInterface {
     void onNewsFeedLoaded(NewsFeedResponse newsFeedResponse);
-    void hideLoadingAnimation();
-    void showErrorMessage(String message);
-    void showLoadingAnimation();
+    void onHideRefresh();
+
 }

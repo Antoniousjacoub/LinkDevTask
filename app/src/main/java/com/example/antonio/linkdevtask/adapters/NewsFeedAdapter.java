@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
-import com.example.antonio.linkdevtask.ui.main.OnItemNewsClicked;
 import com.example.antonio.linkdevtask.utils.Utils;
 
 import java.util.List;
@@ -26,10 +25,9 @@ import butterknife.ButterKnife;
 
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHolder> {
 
-    private List<Article>  mData;
+    private List<Article> mData;
     private Context context;
     private OnItemNewsClicked onItemNewsClicked;
-    private Article article;
 
     // data is passed into the constructor
     public NewsFeedAdapter(Context context, List<Article> data, OnItemNewsClicked onItemNewsClicked) {
@@ -42,23 +40,25 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view =  LayoutInflater.from(context).inflate(R.layout.item_news_feed, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_news_feed, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        article = mData.get(position);
-
+        Article article = mData.get(position);
         holder.tvAuthor.setText(Utils.validString(article.getAuthor()));
         holder.tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
         holder.tvPublishDate.setText(Utils.parseDate(article.getPublishedAt()));
-        Utils.loadImageWithGlide(context,holder.imgNewsFeed, article.getUrlToImage());
-        holder.cardView.setOnClickListener(view -> onItemNewsClicked.onItemNewsClicked(mData.get(position),position));
+        Utils.loadImageWithGlide(context, holder.imgNewsFeed, article.getUrlToImage());
+
+        holder.cardView.setOnClickListener(v -> {
+            if (onItemNewsClicked != null)
+                onItemNewsClicked.onItemNewsClicked(mData.get(position), position);
+        });
 
     }
-
 
 
     @Override
@@ -72,6 +72,9 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.ViewHo
         return mData.size();
     }
 
+    public interface OnItemNewsClicked {
+        void onItemNewsClicked(Article article, int position);
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.img_news_feed)

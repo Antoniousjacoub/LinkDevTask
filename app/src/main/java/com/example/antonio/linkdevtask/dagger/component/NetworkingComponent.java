@@ -12,7 +12,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = { NetworkingModule.class})
+@Component(modules = {NetworkingModule.class})
 public interface NetworkingComponent {
     ServicesInterface getServicesInterface();
 }

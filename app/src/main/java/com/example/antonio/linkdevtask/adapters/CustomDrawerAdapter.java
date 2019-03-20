@@ -1,4 +1,5 @@
 package com.example.antonio.linkdevtask.adapters;
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.DrawerItem;
-import com.example.antonio.linkdevtask.ui.base.BaseActivityForDrawer;
-import com.example.antonio.linkdevtask.ui.base.OnItemSideMenuClicked;
 
 import java.util.List;
 
@@ -25,10 +25,10 @@ import butterknife.ButterKnife;
 
 public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapter.ViewHolder> {
 
+    public static int lastSelectedSideMenuPosition;//make the 0 position the default selected
     private Context context;
     private List<DrawerItem> drawerItemList;
     private OnItemSideMenuClicked onItemSideMenuClicked;
-
 
     public CustomDrawerAdapter(Context context, List<DrawerItem> listItems, OnItemSideMenuClicked onItemSideMenuClicked) {
         this.context = context;
@@ -51,7 +51,7 @@ public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapte
         holder.drawerItemName.setText(dItem.getItemName());
         holder.itemLayout.setOnClickListener(view -> onItemSideMenuClicked.onItemSideMenuClicked(position));
 
-        if (position == BaseActivityForDrawer.positionSelectedSideMenu) {
+        if (position == lastSelectedSideMenuPosition) {
             holder.imageSelectedItem.setImageDrawable(context.getResources().getDrawable(R.drawable.selected));
         } else {
             holder.imageSelectedItem.setImageDrawable(null);
@@ -66,6 +66,10 @@ public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapte
     @Override
     public int getItemCount() {
         return drawerItemList.size();
+    }
+
+    public interface OnItemSideMenuClicked {
+        void onItemSideMenuClicked(int position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

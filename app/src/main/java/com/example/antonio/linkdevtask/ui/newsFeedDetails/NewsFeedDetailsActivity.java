@@ -30,7 +30,7 @@ public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsDe
         setContentView(R.layout.activity_news_feed_details);
         ButterKnife.bind(this);
         handleToolbar();
-        addFragment(R.id.container_home, new NewsDetailsFragment().getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
+        addFragment(R.id.container_home, NewsDetailsFragment.getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
     }
 
     private void handleToolbar() {
@@ -65,11 +65,13 @@ public class NewsFeedDetailsActivity extends AppCompatActivity implements NewsDe
                 .disallowAddToBackStack()
                 .commit();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 

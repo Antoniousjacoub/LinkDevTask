@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,15 +33,17 @@ public class Utils {
 
 
     }
+
     //this method instead of writing to every time...
     public static void showMessage(Context context, String content) {
         if (context == null || content == null)
             return;
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
     }
+
     //this method valid string and value can never be null
-    public static String validString(String string){
-        if (string==null)
+    public static String validString(String string) {
+        if (string == null)
             return "";
 
         return string;
@@ -50,7 +51,7 @@ public class Utils {
     }
 
 
-    public static void openWebsiteOnBrowser(Activity activity,String url) {
+    public static void openWebsiteOnBrowser(Activity activity, String url) {
         if (url == null || url.equals(""))
             return;//we don't need to open website if this check is true
 
@@ -62,14 +63,14 @@ public class Utils {
 
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(activity.getPackageManager()) != null) {
-          activity.startActivity(intent);
-        }else {
-            showMessage(activity,activity.getString(R.string.no_apps_can_resolve_the_intent));
+            activity.startActivity(intent);
+        } else {
+            showMessage(activity, activity.getString(R.string.no_apps_can_resolve_the_intent));
         }
     }
 
     public static String parseDate(String oldDateFormat) {
-        if (oldDateFormat==null)
+        if (oldDateFormat == null)
             return "";
         String inputPattern = "yyyy-MM-dd";
         String outputPattern = "MMM dd, yyyy";
@@ -77,7 +78,7 @@ public class Utils {
         SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
         try {
             Date date = inputFormat.parse(oldDateFormat);
-          return outputFormat.format(date);
+            return outputFormat.format(date);
 
         } catch (ParseException e) {
             e.printStackTrace();

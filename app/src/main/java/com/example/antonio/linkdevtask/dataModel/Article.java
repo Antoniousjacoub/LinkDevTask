@@ -12,6 +12,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class Article implements Parcelable {
 
+    public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        public Article[] newArray(int size) {
+            return (new Article[size]);
+        }
+
+    };
     @SerializedName("author")
     @Expose
     private String author;
@@ -30,22 +45,6 @@ public class Article implements Parcelable {
     @SerializedName("publishedAt")
     @Expose
     private String publishedAt;
-    public final static Parcelable.Creator<Article> CREATOR = new Creator<Article>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Article createFromParcel(Parcel in) {
-            return new Article(in);
-        }
-
-        public Article[] newArray(int size) {
-            return (new Article[size]);
-        }
-
-    }
-            ;
 
     protected Article(Parcel in) {
         this.author = ((String) in.readValue((String.class.getClassLoader())));

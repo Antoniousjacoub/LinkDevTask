@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.example.antonio.linkdevtask.dagger.component.DaggerNetworkingComponent;
 import com.example.antonio.linkdevtask.dagger.component.NetworkingComponent;
-
 import com.example.antonio.linkdevtask.dagger.module.NetworkingModule;
 import com.example.antonio.linkdevtask.utils.Constants;
 
@@ -14,13 +13,13 @@ import com.example.antonio.linkdevtask.utils.Constants;
  */
 
 public class App extends Application {
+    private static NetworkingComponent mNetworkingComponent;
+
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    private NetworkingComponent mNetworkingComponent;
-
-    public NetworkingComponent getNetComponent() {
+    public static NetworkingComponent getNetComponent() {
         return mNetworkingComponent;
     }
 
@@ -28,11 +27,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mNetworkingComponent = DaggerNetworkingComponent.builder()
-                .networkingModule(new NetworkingModule(this,Constants.BASE_URL))
+                .networkingModule(new NetworkingModule(this, Constants.BASE_URL))
                 .build();
 
     }
-
 
 
 }

@@ -8,7 +8,7 @@ import com.example.antonio.linkdevtask.ui.base.BaseActivityForDrawer;
 
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivityForDrawer implements HomeNewsFeedFragment.OnFragmentInteractionListener{
+public class HomeNewsFeedActivity extends BaseActivityForDrawer implements HomeNewsFeedFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +16,14 @@ public class MainActivity extends BaseActivityForDrawer implements HomeNewsFeedF
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initToolbarTitle(getString(R.string.link_development));
-        addFragment(R.id.container_home,new  HomeNewsFeedFragment().getInstance(),HomeNewsFeedFragment.TAG);
+        if (savedInstanceState == null)
+            addFragment(R.id.container_home, HomeNewsFeedFragment.getInstance(), HomeNewsFeedFragment.TAG);
     }
 
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
 

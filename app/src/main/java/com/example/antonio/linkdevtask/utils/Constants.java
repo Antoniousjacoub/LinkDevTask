@@ -6,10 +6,9 @@ package com.example.antonio.linkdevtask.utils;
 
 public class Constants {
 
-    public final static String BASE_URL = "https://newsapi.org/v1/" ;
-    public final static String SOURCE = "the-next-web" ;
-    public final static String API_KEY = "533af958594143758318137469b41ba9" ;
-
+    public final static String BASE_URL = "https://newsapi.org/v1/";
+    public final static String SOURCE = "the-next-web";
+    public final static String API_KEY = "533af958594143758318137469b41ba9";
 
 
 }

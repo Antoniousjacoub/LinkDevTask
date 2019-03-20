@@ -11,8 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:installLocation="auto"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.main.HomeNewsFeedActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +21,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.base.BaseActivityForDrawer" />
-        <activity android:name=".ui.newsFeedDetails.NewsFeedDetailsActivity" />
+        <activity
+            android:parentActivityName=".ui.main.HomeNewsFeedActivity"
+            android:name=".ui.newsFeedDetails.NewsFeedDetailsActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.HomeNewsFeedActivity" />
+
+        </activity>
     </application>
 
 </manifest>

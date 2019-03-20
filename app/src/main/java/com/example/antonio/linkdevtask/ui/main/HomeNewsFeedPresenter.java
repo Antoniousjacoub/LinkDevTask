@@ -1,6 +1,5 @@
 package com.example.antonio.linkdevtask.ui.main;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -17,40 +16,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by antonio on 1/16/19.
  */
-
-public class MainPresenter {
+class HomeNewsFeedPresenter {
     private Context context;
     private ServicesInterface servicesInterface;
-    private MainViewInterface mainViewInterface;
+    private HomeNewsViewInterface homeNewsViewInterface;
 
-    public MainPresenter(Activity context, MainViewInterface mainViewInterface) {
-
-        this.servicesInterface = ((App) context.getApplication()).getNetComponent().getServicesInterface();
+    HomeNewsFeedPresenter(Context context, HomeNewsViewInterface homeNewsViewInterface) {
+        this.servicesInterface = App.getNetComponent().getServicesInterface();
         this.context = context;
-        this.mainViewInterface = mainViewInterface;
+        this.homeNewsViewInterface = homeNewsViewInterface;
     }
 
-   public void getNewsFeed(boolean isFromSwipeRefresh) {
-        if (servicesInterface == null || mainViewInterface == null)
+    void getNewsFeed(boolean isFromSwipeRefresh) {
+        if (servicesInterface == null || homeNewsViewInterface == null)
             return;//early
         if (!isFromSwipeRefresh) {
-            mainViewInterface.showLoadingAnimation();
+            homeNewsViewInterface.showLoadingAnimation();
         }
-        Call<NewsFeedResponse> homeData = servicesInterface.getNewsFeed(Constants.SOURCE,
-                Constants.API_KEY);
+        Call<NewsFeedResponse> homeData = servicesInterface.getNewsFeed(Constants.SOURCE, Constants.API_KEY);
         homeData.enqueue(new Callback<NewsFeedResponse>() {
             @Override
             public void onResponse(@NonNull Call<NewsFeedResponse> call, @NonNull final Response<NewsFeedResponse> response) {
                 if (!isFromSwipeRefresh) {
-                    mainViewInterface.hideLoadingAnimation();
-                }
+                    homeNewsViewInterface.hideLoadingAnimation();
+                }else
+                    homeNewsViewInterface.onHideRefresh();
+
                 if (response.isSuccessful()) {
-                    mainViewInterface.onNewsFeedLoaded(response.body());
+                    homeNewsViewInterface.onNewsFeedLoaded(response.body());
                 }
 
             }
@@ -66,15 +63,16 @@ public class MainPresenter {
     }
 
     private void processError(Throwable throwable) {
-        if (mainViewInterface == null || throwable == null || context == null)
+        if (homeNewsViewInterface == null || throwable == null || context == null)
             return;
-        mainViewInterface.hideLoadingAnimation();
+        homeNewsViewInterface.hideLoadingAnimation();
+        homeNewsViewInterface.onHideRefresh();
         if (throwable instanceof HttpException) {
-            mainViewInterface.showErrorMessage(((HttpException) throwable).message());
+            homeNewsViewInterface.showErrorMessage(((HttpException) throwable).message());
         } else if (throwable instanceof IOException) {
-            mainViewInterface.showErrorMessage(context.getString(R.string.error_network));
+            homeNewsViewInterface.showErrorMessage(context.getString(R.string.error_network));
         } else {
-            mainViewInterface.showErrorMessage(context.getString(R.string.error_communicating_with_server));
+            homeNewsViewInterface.showErrorMessage(context.getString(R.string.error_communicating_with_server));
         }
     }
 }

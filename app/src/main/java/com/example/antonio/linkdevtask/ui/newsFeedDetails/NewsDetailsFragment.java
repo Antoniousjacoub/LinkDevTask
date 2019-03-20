@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.dataModel.Article;
+import com.example.antonio.linkdevtask.ui.base.BaseFragment;
 import com.example.antonio.linkdevtask.utils.Utils;
 
 import butterknife.BindView;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView {
+public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetailsView {
 
     public static final String TAG = "NewsDetailsFragmentTag";
     public static String ARTICLE_KEY = "ARTICLE_KEY";
@@ -49,19 +50,11 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     Unbinder unbinder;
     private String urlArticle;
 
+    public static NewsDetailsFragment getInstance(Bundle bundle) {
+        NewsDetailsFragment fragment = new NewsDetailsFragment();
+        fragment.setArguments(bundle);
+        return fragment;
 
-    private OnFragmentInteractionListener mListener;
-    private NewsDetailsFragment fragment;
-
-    public NewsDetailsFragment getInstance(Bundle bundle) {
-        if (fragment == null) {
-            fragment = new NewsDetailsFragment();
-            fragment.setArguments(bundle);
-            return fragment;
-        } else {
-            fragment.setArguments(bundle);
-            return fragment;
-        }
     }
 
     @Override
@@ -71,9 +64,13 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_news_details, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
@@ -82,21 +79,7 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
     }
 
 
-    private void onSetDataOnView(Article article) {
-        if (article == null)
-            return;
-
-        urlArticle = article.getUrl();
-        tvAuthor.setText(Utils.validString(article.getAuthor()));
-        tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
-        tvNewsDetailsDesc.setText(Utils.validString(article.getDescription()));
-        tvDatePublished.setText(Utils.parseDate(article.getPublishedAt()));
-        Utils.loadImageWithGlide(getContext(), imgNewsFeedDetails, article.getUrlToImage());
-
-
-    }
-
-    @OnClick({ R.id.btn_open_website})
+    @OnClick({R.id.btn_open_website})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_open_website:
@@ -112,27 +95,16 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
         onSetDataOnView(article);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
@@ -143,7 +115,27 @@ public class NewsDetailsFragment extends Fragment implements NewsFeedDetailsView
         }
     }
 
+    @Override
+    protected void setListeners() {
+
+    }
+
+    private void onSetDataOnView(Article article) {
+        if (article == null)
+            return;
+
+        urlArticle = article.getUrl();
+        tvAuthor.setText(Utils.validString(article.getAuthor()));
+        tvNewsFeedTitle.setText(Utils.validString(article.getTitle()));
+        tvNewsDetailsDesc.setText(Utils.validString(article.getDescription()));
+        tvDatePublished.setText(Utils.parseDate(article.getPublishedAt()));
+        Utils.loadImageWithGlide(getContext(), imgNewsFeedDetails, article.getUrlToImage());
+
+
+    }
+
     public interface OnFragmentInteractionListener {
+
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.NewsFeedAdapter;
 import com.example.antonio.linkdevtask.dataModel.Article;
 import com.example.antonio.linkdevtask.dataModel.NewsFeedResponse;
+import com.example.antonio.linkdevtask.ui.base.BaseFragment;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsDetailsFragment;
 import com.example.antonio.linkdevtask.ui.newsFeedDetails.NewsFeedDetailsActivity;
 import com.example.antonio.linkdevtask.utils.Utils;
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class HomeNewsFeedFragment extends Fragment implements MainViewInterface, OnItemNewsClicked {
+public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewInterface, NewsFeedAdapter.OnItemNewsClicked {
 
     public static final String TAG = "HomeFragment";
     @BindView(R.id.rv_news_feed)
@@ -37,18 +39,12 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface,
     @BindView(R.id.load_view)
     FrameLayout loadView;
     Unbinder unbinder;
-    private MainPresenter mainPresenter;
+    private HomeNewsFeedPresenter homeNewsFeedPresenter;
+    private Context context;
 
-    private OnFragmentInteractionListener mListener;
-    private  HomeNewsFeedFragment fragment;
 
-    public  HomeNewsFeedFragment getInstance() {
-        if (fragment == null) {
-            fragment = new HomeNewsFeedFragment();
-            return fragment;
-        } else {
-            return fragment;
-        }
+    public static HomeNewsFeedFragment getInstance() {
+        return new HomeNewsFeedFragment();
     }
 
     @Override
@@ -57,53 +53,60 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface,
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home_news_feed, container, false);
+        context = getActivity();
         unbinder = ButterKnife.bind(this, rootView);
-        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+        setListeners();
         handleNewsRequest();
         return rootView;
     }
 
     private void handleNewsRequest() {
-        if (getActivity() == null)
+        if (context == null)
             return;
-        mainPresenter = new MainPresenter(getActivity(), this);
-        mainPresenter.getNewsFeed(false);
+        homeNewsFeedPresenter = new HomeNewsFeedPresenter(context, this);
+        homeNewsFeedPresenter.getNewsFeed(false);
     }
 
-    private SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
-        if (mainPresenter != null) {
-            mainPresenter.getNewsFeed(true);
-        }
-    };
 
     @Override
     public void onNewsFeedLoaded(NewsFeedResponse newsFeedResponse) {
-        swipeRefreshLayout.setRefreshing(false);
-        if (newsFeedResponse == null || getContext() == null) {
-            Utils.showMessage(getContext(), getString(R.string.no_data_to_show));
+
+        if (newsFeedResponse == null || context == null) {
+            Utils.showMessage(context, getString(R.string.no_data_to_show));
             return;
         }
 
-        rvNewsFeed.setLayoutManager(new LinearLayoutManager(getContext()));
-        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(getContext(), newsFeedResponse.getArticles(),this);
+        rvNewsFeed.setLayoutManager(new LinearLayoutManager(context));
+        NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(context, newsFeedResponse.getArticles(), this);
         rvNewsFeed.setAdapter(newsFeedAdapter);
 
+    }
+
+    @Override
+    public void onHideRefresh() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void hideLoadingAnimation() {
         loadView.setVisibility(View.GONE);
         rvNewsFeed.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setRefreshing(false);
+
 
     }
 
     @Override
     public void showErrorMessage(String message) {
-        Utils.showMessage(getContext(), message);
+        Utils.showMessage(context, message);
     }
 
     @Override
@@ -115,33 +118,38 @@ public class HomeNewsFeedFragment extends Fragment implements MainViewInterface,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (unbinder!=null) {
-            unbinder.unbind();
-        }
+//        if (unbinder != null) {
+//            unbinder.unbind();
+//        }
     }
 
     @Override
     public void onItemNewsClicked(Article article, int position) {
-        Intent intent =new Intent(getContext(), NewsFeedDetailsActivity.class);
-        intent.putExtra(NewsDetailsFragment.ARTICLE_KEY,article);
+        Intent intent = new Intent(getContext(), NewsFeedDetailsActivity.class);
+        intent.putExtra(NewsDetailsFragment.ARTICLE_KEY, article);
         startActivity(intent);
+    }
+
+    @Override
+    protected void setListeners() {
+        SwipeRefreshLayout.OnRefreshListener onRefreshListener = () -> {
+            if (homeNewsFeedPresenter != null) {
+                homeNewsFeedPresenter.getNewsFeed(true);
+            }
+        };
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
     }
 
     public interface OnFragmentInteractionListener {

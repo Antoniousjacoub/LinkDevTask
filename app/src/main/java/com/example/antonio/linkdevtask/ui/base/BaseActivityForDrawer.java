@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.example.antonio.linkdevtask.R;
 import com.example.antonio.linkdevtask.adapters.CustomDrawerAdapter;
@@ -23,23 +24,21 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSideMenuClicked {
+public class BaseActivityForDrawer extends AppCompatActivity implements CustomDrawerAdapter.OnItemSideMenuClicked {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
     @BindView(R.id.flContent)
     public FrameLayout flContent;
-    @BindView(R.id.menuList)
+    @BindView(R.id.load_view)
+    public FrameLayout loadView;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.rv_menuList)
     RecyclerView rvMenuList;
     @BindView(R.id.nvView)
     NavigationView nvView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.load_view)
-    public FrameLayout loadView;
     private CustomDrawerAdapter customDrawerAdapter;
-
-    public static int positionSelectedSideMenu;//make the 0 position the default selected
 
     @Override
     public void setContentView(int layoutResID) {
@@ -50,11 +49,13 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
+
     public void initToolbarTitle(String title) {
         if (title == null)
             title = "";
@@ -85,7 +86,7 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
         drawerToggle.syncState();
 
 
-        ArrayList<DrawerItem>  dataListOFMenuItems = new ArrayList<>();
+        ArrayList<DrawerItem> dataListOFMenuItems = new ArrayList<>();
         DrawerItem item_1 = new DrawerItem();
         item_1.setItemName(getString(R.string.str_menu_explore));
         item_1.setImgResID(R.drawable.ic_explore);
@@ -105,9 +106,9 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
         dataListOFMenuItems.add(item_4);
         DrawerItem item_5 = new DrawerItem();
         item_5.setItemName(getString(R.string.str_menu_e_magazine));
+
         item_5.setImgResID(R.drawable.ic_e_magazine);
         dataListOFMenuItems.add(item_5);
-
         customDrawerAdapter = new CustomDrawerAdapter(this, dataListOFMenuItems, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvMenuList.setLayoutManager(layoutManager);
@@ -125,32 +126,35 @@ public class BaseActivityForDrawer extends AppCompatActivity implements OnItemSi
     @Override
     public void onItemSideMenuClicked(int position) {
         drawerLayout.closeDrawers();
-        positionSelectedSideMenu = position ;
+        CustomDrawerAdapter.lastSelectedSideMenuPosition = position;
         customDrawerAdapter.notifyDataSetChanged();
 
         switch (position) {
-            case 0:
-
+            case SideMenuItems.EXPLORE:
                 Utils.showMessage(this, getString(R.string.str_menu_explore));
                 break;
-
-            case 1:
+            case SideMenuItems.LIVE_CHAT:
                 Utils.showMessage(this, getString(R.string.str_menu_live_chat));
                 break;
-
-            case 2:
+            case SideMenuItems.GALLERY:
                 Utils.showMessage(this, getString(R.string.str_menu_gallery));
                 break;
-
-            case 3:
+            case SideMenuItems.WISH_LIST:
                 Utils.showMessage(this, getString(R.string.str_menu_wish_list));
                 break;
-            case 4:
+            case SideMenuItems.E_MAGAZINE:
                 Utils.showMessage(this, getString(R.string.str_menu_e_magazine));
-
                 break;
 
 
         }
+    }
+
+    private static class SideMenuItems {
+        private final static int EXPLORE=0;
+        private final static int LIVE_CHAT=1;
+        private final static int GALLERY=2;
+        private final static int WISH_LIST=3;
+        private final static int E_MAGAZINE=4;
     }
 }
