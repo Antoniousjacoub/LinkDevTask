@@ -13,7 +13,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {NetworkingModule.class})
 public interface NetworkingComponent {
-    ServicesInterface getServicesInterface();
-
     void inject(HomeNewsFeedPresenter homeNewsFeedPresenter);
 }
