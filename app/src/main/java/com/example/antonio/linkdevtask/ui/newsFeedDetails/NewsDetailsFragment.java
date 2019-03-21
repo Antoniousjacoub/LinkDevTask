@@ -68,7 +68,7 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
         super.onActivityCreated(savedInstanceState);
         context = getActivity();
         NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
-        newsFeedDetailsPresenter.handleNewsFeedDetailsData(getArguments());
+        newsFeedDetailsPresenter.handleNewsFeedDetailsData(context,getArguments());
     }
 
     @Override
@@ -94,18 +94,6 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
     @Override
     public void onNewsFeedDetailsData(Article article) {
         onSetDataOnView(article);
-    }
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     @Override

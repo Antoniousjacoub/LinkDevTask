@@ -14,7 +14,8 @@ public class HomeNewsFeedActivity extends BaseActivityForDrawer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initToolbarTitle(getString(R.string.link_development));
+        setToolbar(toolbar,getString(R.string.link_development));
+        setupDrawer();
         if (savedInstanceState == null)
             addFragment(R.id.container_home, HomeNewsFeedFragment.getInstance(), HomeNewsFeedFragment.TAG);
     }

@@ -24,20 +24,9 @@ public class NewsFeedDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_details);
         ButterKnife.bind(this);
-        handleToolbar();
+        setToolbar(toolbar,getString(R.string.link_development));
         addFragment(R.id.container_home, NewsDetailsFragment.getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
     }
-
-    private void handleToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.link_development));
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        }
-        toolbar.inflateMenu(R.menu.main_menu);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

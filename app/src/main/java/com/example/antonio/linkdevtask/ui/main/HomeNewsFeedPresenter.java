@@ -1,5 +1,6 @@
 package com.example.antonio.linkdevtask.ui.main;
 
+import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -12,6 +13,8 @@ import com.example.antonio.linkdevtask.utils.Constants;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.HttpException;
@@ -20,13 +23,16 @@ import retrofit2.Response;
 /**
  * Created by antonio on 1/16/19.
  */
-class HomeNewsFeedPresenter {
+public class HomeNewsFeedPresenter {
     private Context context;
-    private ServicesInterface servicesInterface;
+
+    @Inject
+    ServicesInterface servicesInterface;
     private HomeNewsViewInterface homeNewsViewInterface;
 
     HomeNewsFeedPresenter(Context context, HomeNewsViewInterface homeNewsViewInterface) {
-        this.servicesInterface = App.getNetComponent().getServicesInterface();
+//        this.servicesInterface = App.getNetComponent().getServicesInterface();
+         ((App) context.getApplicationContext()).getNetComponent().inject(this);
         this.context = context;
         this.homeNewsViewInterface = homeNewsViewInterface;
     }

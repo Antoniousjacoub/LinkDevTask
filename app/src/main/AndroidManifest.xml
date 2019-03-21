@@ -20,7 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.base.BaseActivityForDrawer" />
         <activity
             android:parentActivityName=".ui.main.HomeNewsFeedActivity"
             android:name=".ui.newsFeedDetails.NewsFeedDetailsActivity" >
@@ -30,7 +29,7 @@
                 android:value=".ui.main.HomeNewsFeedActivity" />
 
         </activity>
-        <activity android:name=".ui.base.BaseActivity" />
+
     </application>
 
 </manifest>

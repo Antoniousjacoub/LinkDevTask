@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class BaseActivityForDrawer extends BaseActivity implements CustomDrawerAdapter.OnItemSideMenuClicked {
+public abstract class BaseActivityForDrawer extends BaseActivity implements CustomDrawerAdapter.OnItemSideMenuClicked {
 
     @BindView(R.id.flContent)
     public FrameLayout flContent;
     @BindView(R.id.load_view)
     public FrameLayout loadView;
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    public Toolbar toolbar;
     @BindView(R.id.rv_menuList)
     RecyclerView rvMenuList;
     @BindView(R.id.nvView)
@@ -51,19 +51,8 @@ public class BaseActivityForDrawer extends BaseActivity implements CustomDrawerA
         return true;
     }
 
-    public void initToolbarTitle(String title) {
-        if (title == null)
-            title = "";
 
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
-        toolbar.inflateMenu(R.menu.main_menu);
-        setupDrawer();
-    }
-
-    public void setupDrawer() {
+    protected void setupDrawer() {
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerToggle.setHomeAsUpIndicator(R.drawable.ic_drawer);
@@ -111,8 +100,7 @@ public class BaseActivityForDrawer extends BaseActivity implements CustomDrawerA
     @Override
     public void onItemSideMenuClicked(int position) {
         drawerLayout.closeDrawers();
-        CustomDrawerAdapter.lastSelectedSideMenuPosition = position;
-        customDrawerAdapter.notifyDataSetChanged();
+        customDrawerAdapter.setlastSelectedPosition(position);
 
         switch (position) {
             case SideMenuItems.EXPLORE:

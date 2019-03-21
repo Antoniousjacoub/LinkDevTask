@@ -13,13 +13,13 @@ import com.example.antonio.linkdevtask.utils.Constants;
  */
 
 public class App extends Application {
-    private static NetworkingComponent mNetworkingComponent;
+    private  NetworkingComponent mNetworkingComponent;
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    public static NetworkingComponent getNetComponent() {
+    public  NetworkingComponent getNetComponent() {
         return mNetworkingComponent;
     }
 
@@ -27,7 +27,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mNetworkingComponent = DaggerNetworkingComponent.builder()
-                .networkingModule(new NetworkingModule(this, Constants.BASE_URL))
+                .networkingModule(new NetworkingModule(Constants.BASE_URL))
                 .build();
 
     }

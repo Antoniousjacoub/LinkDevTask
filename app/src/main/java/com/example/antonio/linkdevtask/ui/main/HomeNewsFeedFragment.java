@@ -111,23 +111,11 @@ public class HomeNewsFeedFragment extends BaseFragment implements HomeNewsViewIn
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        if (unbinder != null) {
-//            unbinder.unbind();
-//        }
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     @Override
