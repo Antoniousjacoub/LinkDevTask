@@ -13,13 +13,13 @@ import com.example.antonio.linkdevtask.utils.Constants;
  */
 
 public class App extends Application {
-    private  NetworkingComponent mNetworkingComponent;
-
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    public  NetworkingComponent getNetComponent() {
+    private NetworkingComponent mNetworkingComponent;
+
+    public NetworkingComponent getNetComponent() {
         return mNetworkingComponent;
     }
 

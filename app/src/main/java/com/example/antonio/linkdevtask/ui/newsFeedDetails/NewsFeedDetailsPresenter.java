@@ -18,10 +18,10 @@ public class NewsFeedDetailsPresenter {
         this.newsFeedDetailsView = newsFeedDetailsView;
     }
 
-    void handleNewsFeedDetailsData(Context context,Bundle bundle) {
-        if (context==null)return;
+    void handleNewsFeedDetailsData(Context context, Bundle bundle) {
+        if (context == null) return;
         if (bundle == null) {
-            Utils.showMessage(context,context.getString(R.string.somthing_went_wrong));
+            Utils.showMessage(context, context.getString(R.string.somthing_went_wrong));
             return;
         }
         Article article = bundle.getParcelable(ARTICLE_KEY);

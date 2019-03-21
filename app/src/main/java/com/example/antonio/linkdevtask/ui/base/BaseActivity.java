@@ -18,6 +18,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .disallowAddToBackStack()
                 .commit();
     }
+
     public void setToolbar(Toolbar toolbar, String title) {
         if (title == null)
             title = "";

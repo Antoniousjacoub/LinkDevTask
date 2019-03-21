@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 
 public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapter.ViewHolder> {
 
-    private  int lastSelectedSideMenuPosition;//make the 0 position the default selected
+    private int lastSelectedSideMenuPosition;//make the 0 position the default selected
     private Context context;
     private List<DrawerItem> drawerItemList;
     private OnItemSideMenuClicked onItemSideMenuClicked;
@@ -68,13 +68,13 @@ public class CustomDrawerAdapter extends RecyclerView.Adapter<CustomDrawerAdapte
         return drawerItemList.size();
     }
 
-    public interface OnItemSideMenuClicked {
-        void onItemSideMenuClicked(int position);
+    public void setlastSelectedPosition(int lastSelectedSideMenuPosition) {
+        this.lastSelectedSideMenuPosition = lastSelectedSideMenuPosition;
+        notifyDataSetChanged();
     }
 
-    public void setlastSelectedPosition(int lastSelectedSideMenuPosition) {
-        this.lastSelectedSideMenuPosition=lastSelectedSideMenuPosition;
-        notifyDataSetChanged();
+    public interface OnItemSideMenuClicked {
+        void onItemSideMenuClicked(int position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

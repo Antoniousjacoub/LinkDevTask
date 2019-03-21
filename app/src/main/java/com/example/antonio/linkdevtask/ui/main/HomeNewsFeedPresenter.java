@@ -1,6 +1,5 @@
 package com.example.antonio.linkdevtask.ui.main;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -24,15 +23,14 @@ import retrofit2.Response;
  * Created by antonio on 1/16/19.
  */
 public class HomeNewsFeedPresenter {
-    private Context context;
-
     @Inject
     ServicesInterface servicesInterface;
+    private Context context;
     private HomeNewsViewInterface homeNewsViewInterface;
 
     HomeNewsFeedPresenter(Context context, HomeNewsViewInterface homeNewsViewInterface) {
 //        this.servicesInterface = App.getNetComponent().getServicesInterface();
-         ((App) context.getApplicationContext()).getNetComponent().inject(this);
+        ((App) context.getApplicationContext()).getNetComponent().inject(this);
         this.context = context;
         this.homeNewsViewInterface = homeNewsViewInterface;
     }

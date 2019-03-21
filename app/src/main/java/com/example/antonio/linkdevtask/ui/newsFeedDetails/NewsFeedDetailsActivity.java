@@ -24,7 +24,7 @@ public class NewsFeedDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_feed_details);
         ButterKnife.bind(this);
-        setToolbar(toolbar,getString(R.string.link_development));
+        setToolbar(toolbar, getString(R.string.link_development));
         addFragment(R.id.container_home, NewsDetailsFragment.getInstance(getIntent().getExtras()), NewsDetailsFragment.TAG);
     }
 

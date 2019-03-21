@@ -1,7 +1,5 @@
 package com.example.antonio.linkdevtask.dagger.module;
 
-import android.app.Application;
-
 import com.example.antonio.linkdevtask.service.ServicesInterface;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +8,6 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -24,7 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkingModule {
 
     private String mBaseUrl;
-    public  NetworkingModule( String mBaseUrl) {
+
+    public NetworkingModule(String mBaseUrl) {
         this.mBaseUrl = mBaseUrl;
     }
 
@@ -34,7 +32,7 @@ public class NetworkingModule {
 
     @Provides
     @Singleton
-     ServicesInterface getServicesInterface() {
+    ServicesInterface getServicesInterface() {
         return provideRetrofit().create(ServicesInterface.class);
     }
 

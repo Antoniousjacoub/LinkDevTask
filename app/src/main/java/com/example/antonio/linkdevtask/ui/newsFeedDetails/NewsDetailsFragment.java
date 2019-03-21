@@ -68,7 +68,7 @@ public class NewsDetailsFragment extends BaseFragment implements NewsFeedDetails
         super.onActivityCreated(savedInstanceState);
         context = getActivity();
         NewsFeedDetailsPresenter newsFeedDetailsPresenter = new NewsFeedDetailsPresenter(this);
-        newsFeedDetailsPresenter.handleNewsFeedDetailsData(context,getArguments());
+        newsFeedDetailsPresenter.handleNewsFeedDetailsData(context, getArguments());
     }
 
     @Override
