@@ -33,7 +33,6 @@ public abstract class BaseActivityForDrawer extends BaseActivity implements Cust
     NavigationView nvView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    private CustomDrawerAdapter customDrawerAdapter;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -83,7 +82,7 @@ public abstract class BaseActivityForDrawer extends BaseActivity implements Cust
 
         item_5.setImgResID(R.drawable.ic_e_magazine);
         dataListOFMenuItems.add(item_5);
-        customDrawerAdapter = new CustomDrawerAdapter(this, dataListOFMenuItems, this);
+        CustomDrawerAdapter customDrawerAdapter = new CustomDrawerAdapter(this, dataListOFMenuItems, this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         rvMenuList.setLayoutManager(layoutManager);
         rvMenuList.setAdapter(customDrawerAdapter);
@@ -100,8 +99,6 @@ public abstract class BaseActivityForDrawer extends BaseActivity implements Cust
     @Override
     public void onItemSideMenuClicked(int position) {
         drawerLayout.closeDrawers();
-        customDrawerAdapter.setlastSelectedPosition(position);
-
         switch (position) {
             case SideMenuItems.EXPLORE:
                 Utils.showMessage(this, getString(R.string.str_menu_explore));
